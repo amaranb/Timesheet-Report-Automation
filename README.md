@@ -6,7 +6,8 @@ This repository houses the script and workflow architecture model for the Automa
 
 Employee Arrives On-Site
 
-          ↓
+          |
+          v
           
    Scan Site QR Code
    
