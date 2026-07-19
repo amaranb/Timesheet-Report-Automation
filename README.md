@@ -3,7 +3,7 @@ This repository houses the script and workflow architecture model for the Automa
 
 # System Architecture
 ┌──────────────────────────────────────────────────────────────┐
-│               EMPLOYEE INTERACTION LAYER                     │
+│                    EMPLOYEE INTERACTION LAYER                │
 └──────────────────────────────────────────────────────────────┘
 
 Employee Arrives On-Site
@@ -24,9 +24,12 @@ Captured Data:
 - Clock-Out Timestamp
 - Date
 - Additional Timecard Information
-  
+
+
                               |
                               v
+
+
 ┌──────────────────────────────────────────────────────────────┐
 │                     DATA COLLECTION LAYER                    │
 └──────────────────────────────────────────────────────────────┘
@@ -36,6 +39,8 @@ Captured Data:
                               |
                               |
                               v
+
+
 ┌──────────────────────────────────────────────────────────────┐
 │                DATA PROCESSING & AUTOMATION LAYER            │
 └──────────────────────────────────────────────────────────────┘
@@ -54,8 +59,11 @@ Captured Data:
  - Normalize names     - Weekly totals         - Attendance tracking
  - Format timestamps   - Labor cost            - Missing clock-outs
 
+
                               |
                               v
+
+
 ┌──────────────────────────────────────────────────────────────┐
 │                    PROCESSED DATA LAYER                      │
 └──────────────────────────────────────────────────────────────┘
@@ -66,6 +74,8 @@ Captured Data:
         ------------------------------------------------
         |                                              |
         v                                              v
+
+
 ┌───────────────────────────────┐        ┌───────────────────────┐
 │     OPERATIONAL DASHBOARD     │        │ REPORTING AUTOMATION  │
 └───────────────────────────────┘        └───────────────────────┘
@@ -87,8 +97,11 @@ Real-Time Workforce Tracking             Scheduled Daily Report
                                                   v
                                       Automated Email Delivery
 
+
                               |
                               v
+
+
 ┌──────────────────────────────────────────────────────────────┐
 │                    MANAGEMENT REVIEW LAYER                   │
 └──────────────────────────────────────────────────────────────┘
@@ -100,8 +113,11 @@ Project Support Review
 - Review labor utilization
 - Approve corrections
 
+
                               |
                               v
+
+
 Leadership Review
 
 Daily Operational Insights:
