@@ -3,7 +3,7 @@ This repository houses the script and workflow architecture model for the Automa
 
 # System Architecture
 ┌──────────────────────────────────────────────────────────────┐
-│                    EMPLOYEE INTERACTION LAYER                │
+│                EMPLOYEE INTERACTION LAYER                │
 └──────────────────────────────────────────────────────────────┘
 
 Employee Arrives On-Site
