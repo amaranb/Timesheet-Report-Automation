@@ -35,7 +35,8 @@ Captured Data:
                               v
 
 
-  ### DATA COLLECTION LAYER
+    DATA COLLECTION LAYER
+  |-----------------------|
 
 
                  Google Forms Response Database
