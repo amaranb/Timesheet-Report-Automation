@@ -4,7 +4,9 @@ This repository houses the script and workflow architecture model for the Automa
 # System Architecture
 ### EMPLOYEE INTERACTION LAYER              
 
-Employee Arrives On-Site ->
+Employee Arrives On-Site
+          |
+          v
    Scan Site QR Code
           |
           v
