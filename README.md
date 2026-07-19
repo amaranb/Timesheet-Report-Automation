@@ -104,3 +104,5 @@ Daily Operational Insights:
 - Labor expenditures
 - Productivity trends
 - Timekeeping exceptions
+
+### This system automates workforce time tracking by integrating QR-based employee clock-in/out forms, Google Sheets data management, and Google Apps Script automation. The workflow captures employee attendance data, processes timecard information, calculates labor metrics, updates operational dashboards, and generates automated PDF reports for daily leadership review.
