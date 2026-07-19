@@ -45,10 +45,9 @@ Captured Data:
                               |
                               v
 
+ DATA PROCESSING & AUTOMATION LAYER 
+ |----------------------------------|
 
-┌──────────────────────────────────────────────────────────────┐
-│                DATA PROCESSING & AUTOMATION LAYER            │
-└──────────────────────────────────────────────────────────────┘
 
                  Google Apps Script Automation Engine
 
