@@ -5,11 +5,16 @@ This repository houses the script and workflow architecture model for the Automa
 ### EMPLOYEE INTERACTION LAYER              
 
 Employee Arrives On-Site
+
           ↓
+          
    Scan Site QR Code
+   
           |
           v
+          
  Complete Clock-In / Clock-Out Google Form
+ 
           |
           |
           v
