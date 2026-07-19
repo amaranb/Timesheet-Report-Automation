@@ -35,7 +35,7 @@ Captured Data:
                               v
 
 
-    DATA COLLECTION LAYER
+  DATA COLLECTION LAYER
   |-----------------------|
 
 
@@ -68,9 +68,8 @@ Captured Data:
                               v
 
 
-┌──────────────────────────────────────────────────────────────┐
-│                    PROCESSED DATA LAYER                      │
-└──────────────────────────────────────────────────────────────┘
+PROCESSED DATA LAYER    
+|---------------------|
 
               Structured Workforce Timesheet Database
 
@@ -80,10 +79,9 @@ Captured Data:
         v                                              v
 
 
-┌───────────────────────────────┐        ┌───────────────────────┐
-│     OPERATIONAL DASHBOARD     │        │ REPORTING AUTOMATION  │
-└───────────────────────────────┘        └───────────────────────┘
 
+OPERATIONAL DASHBOARD                       REPORTING AUTOMATION 
+|-------------------------------|        |-----------------------|
 Real-Time Workforce Tracking             Scheduled Daily Report
 
 - Employees currently onsite              10:30 PM Trigger
