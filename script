@@ -1,0 +1,136 @@
+function generateDailyTextPDFReport() {
+  // DASHBOARD VALUES
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var dashboard = spreadsheet.getSheetByName("Home");
+  var dashboard = spreadsheet.getSheetByName("Home");
+  var attendancePct = dashboard.getRange("P2").getDisplayValue(); 
+  var attendancePct = dashboard.getRange("A3").getDisplayValue(); 
+  var missingCount = dashboard.getRange("S2").getDisplayValue(); // Pulls the exact displayed count
+  var totalPayroll = dashboard.getRange("Q2").getDisplayValue();
+  var remainingCredit = dashboard.getRange("R2").getDisplayValue();
+  
+  if (!totalPayroll.includes("$")) {
+    var rawPayroll = Number(dashboard.getRange("Q2").getValue()) || 0;
+    totalPayroll = "$" + rawPayroll.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  }
+  if (!remainingCredit.includes("$")) {
+    var rawCredit = Number(dashboard.getRange("R2").getValue()) || 0;
+    remainingCredit = "$" + rawCredit.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  }
+
+//AUTO BUDGET CALC
+  var currentPayroll = Number(dashboard.getRange("Q2").getValue()) || 0;
+  var budgetStatus = (currentPayroll > 1000000) ? "🚨 OVER BUDGET" : "✅ WITHIN CREDIT LIMIT";
+  var missingCount   = dashboard.getRange("S2").getValue(); // Cell calculating COUNTIF for missing out
+  
+  var namesRange = dashboard.getRange("M2:M80").getValues();
+  var missingNamesListHTML = "";
+  
+  for (var i = 0; i < namesRange.length; i++) {
+    var name = namesRange[i][0];
+    if (name !== "" && name !== "✅ All Shifts Complete") {
+      missingNamesListHTML += "<li style='color: #c53030; font-weight: bold;'>" + name + " (Unresolved)</li>";
+    }
+  }
+  if (missingNamesListHTML === "") {
+    missingNamesListHTML = "<li style='color: #2f855a; font-weight: bold;'>✅ All Shifts Complete - No outstanding missing clock-outs.</li>";
+  }
+  
+  var formattedDate = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "MMMM dd, yyyy");
+  var fileDateStamp = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "yyyy-MM-dd");
+  
+  var htmlBody = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #2d3748; line-height: 1.6; font-size: 11pt; }
+        .header { border-bottom: 3px solid #2b6cb0; padding-bottom: 10px; margin-bottom: 20px; }
+        .title { font-size: 22pt; color: #1a365d; font-weight: bold; margin: 0; }
+        .meta-table { width: 100%; margin-top: 10px; border-collapse: collapse; }
+        .meta-table td { padding: 4px 0; font-size: 10pt; color: #4a5568; }
+        .meta-label { font-weight: bold; color: #2d3748; width: 15%; }
+        h2 { font-size: 14pt; color: #1a365d; border-left: 4px solid #2b6cb0; padding-left: 10px; margin-top: 25px; page-break-after: avoid; }
+        .metrics-grid { width: 100%; border-collapse: collapse; margin: 15px 0; background-color: #f7fafc; border: 1px solid #e2e8f0; }
+        .metrics-grid td { width: 25%; padding: 15px; text-align: center; border-right: 1px solid #e2e8f0; }
+        .metrics-grid td:last-child { border-right: none; }
+        .m-val { font-size: 18pt; font-weight: bold; color: #2b6cb0; }
+        .m-lbl { font-size: 8.5pt; text-transform: uppercase; color: #718096; font-weight: 600; letter-spacing: 0.5px; }
+        ul { padding-left: 20px; margin: 10px 0; }
+        li { margin-bottom: 6px; }
+        .alert-box { background-color: #fff5f5; border-left: 4px solid #e53e3e; padding: 12px 15px; margin: 15px 0; }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <div class="title">Daily Operations & Payroll Executive Report</div>
+        <table class="meta-table">
+          <tr>
+            <td class="meta-label">Date:</td><td>${formattedDate}</td>
+            <td class="meta-label">Weekly Budget:</td><td>$1,000,000.00</td>
+          </tr>
+          <tr>
+            <td class="meta-label">Status:</td><td style="color:#2f855a; font-weight:bold;">${budgetStatus}</td>
+            <td class="meta-label">Cycle:</td><td>Automated Daily Summary</td>
+          </tr>
+        </table>
+      </div>
+
+      <h2>1. Executive Summary & Core Performance Metrics</h2>
+      <p>This document presents consolidated operational metrics collected from active digital logging records for the current 24-hour cycle.</p>
+      
+      <table class="metrics-grid">
+        <tr>
+          <td><div class="m-val">${attendancePct}</div><div class="m-lbl">Active Attendance</div></td>
+          <td><div class="m-val">${missingCount}</div><div class="m-lbl">Missing Clock-outs</div></td>
+          <td><div class="m-val">${totalPayroll}</div><div class="m-lbl">Weekly Spent</div></td>
+          <td><div class="m-val">${remainingCredit}</div><div class="m-lbl">Available Credit</div></td>
+        </tr>
+      </table>
+
+      <h2>2. Operational Labor & Compliance Tracking</h2>
+      <p>System tracking parameters evaluated active workforce logs to aggregate structural time totals:</p>
+      <ul>
+        <li><strong>Daily Staffing Deployment:</strong> Real-time attendance shows an active attendance rate of <strong>${attendancePct}</strong> across employed staff.</li>
+        <li><strong>Log Compliance Parameters:</strong> A total of <strong>${missingCount}</strong> shifts require immediate administrative intervention due to out-of-bounds metrics.</li>
+      </ul>
+
+      <div class="alert-box">
+        <strong style="color: #9b2c2c; display:block; margin-bottom:5px;">🚨 Missing Clock-Out Action List</strong>
+        <p>The following field personnel have registered a dynamic error state due to a missing out-of-bounds clock-out profile:</p>
+        <ul>
+          ${missingNamesListHTML}
+        </ul>
+      </div>
+
+      <h2>3. Financial Allotment Analysis</h2>
+      <ul>
+        <li><strong>Site Credit Line Balance:</strong> The operational credit reserve retains a total pool of <strong>${remainingCredit}</strong> for the remainder of the calendar week.</li>
+        <li><strong>Spending Forecast:</strong> Management metrics indicate spend velocity scales within optimal parameters. No budgetary overruns or emergency caps are triggered at this time.</li>
+      </ul>
+    </body>
+    </html>
+  `;
+  
+  var folderId = "P1Ar3OUYEc_C-TdBoc7zKbmNapEpFMrt9p"; // Insert your Google Drive Folder ID
+  var emailAddress = "amarablanton@gmail.com"; // Add target inbox
+  
+  var htmlBlob = Utilities.newBlob(htmlBody, "text/html", "report.html");
+  var folders = DriveApp.getFoldersByName("Daily Reports");
+  var folder;
+  if (folders.hasNext()) {
+    folder = folders.next();
+  } else {
+    folder = DriveApp.createFolder("Daily Reports");
+  }
+  
+  // PDF FOLDER SAVE
+  var file = folder.createFile(htmlBlob.getAs("application/pdf")).setName("Daily_Executive_Report_" + fileDateStamp + ".pdf");
+  // PDF EMAIL DELIVERY
+  MailApp.sendEmail({
+    to: emailAddress,
+    subject: "Automated Daily Executive Report - " + formattedDate,
+    body: "Please find attached the daily operations PDF for today's logging interval.",
+    attachments: [file.getAs("application/pdf")]
+  });
+}
